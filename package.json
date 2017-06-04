@@ -1,0 +1,16 @@
+{
+  "name": "elm-mapboxgl-example",
+  "version": "1.0.0",
+  "description": "An example of how to integrate Mapbox GL JS with Elm",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-elm": "^0.7.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ken Kubiak",
+  "license": "BSD-3-Clause"
+}
