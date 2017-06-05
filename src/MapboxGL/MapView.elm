@@ -1,4 +1,4 @@
-port module MapboxGL.MapView
+module MapboxGL.MapView
     exposing
         ( MapView
         , view
@@ -8,16 +8,13 @@ port module MapboxGL.MapView
 
 import Html exposing (Html, div)
 import Html.Attributes exposing (id, style)
-
-
--- port for instantiating the map at a DOM node
-
-
-port mapboxgl_createMap : String -> Cmd msg
+import MapboxGL.MapOptions exposing (MapOptions)
+import MapboxGL.Ports exposing (mapboxgl_createMap)
 
 
 type alias MapView =
     { id : String
+    , options : MapOptions
     }
 
 
@@ -29,7 +26,7 @@ update : Msg -> MapView -> ( MapView, Cmd msg )
 update msg model =
     case msg of
         CreateMap ->
-            ( model, mapboxgl_createMap model.id )
+            ( model, mapboxgl_createMap ( model.id, model.options ) )
 
 
 view : MapView -> Html msg

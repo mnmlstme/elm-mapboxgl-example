@@ -2,6 +2,7 @@ module Main exposing (..)
 
 import Html exposing (Html, section, h1, text)
 import MapboxGL.MapView as MapView exposing (MapView)
+import MapboxGL.MapOptions as MapOptions
 
 
 main : Program Never Model Msg
@@ -27,7 +28,7 @@ init : ( Model, Cmd Msg )
 init =
     let
         mapview =
-            MapView "my_map"
+            MapView "my_map" MapOptions.default
 
         msg =
             MapMessage MapView.CreateMap mapview

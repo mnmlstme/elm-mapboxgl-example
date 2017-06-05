@@ -5,23 +5,27 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibW5tbHN0IiwiYSI6ImNqM2o2cWNrbDAwYXozM3F0ajNqM
 
 var ElmMapboxGL = {
     maps: {},
-    createMap: function (id) {
-        var maps = ElmMapboxGL.maps;
-        var options = {
-            container: id,
-            style: 'mapbox://styles/mapbox/streets-v9', //stylesheet location
-            center: [-74.50, 40], // starting position
-            zoom: 9 // starting zoom
-        };
-        if (!maps[id]) {
-            maps[id] = new mapboxgl.Map(options);
-            console.log("new Mapbox GL at '" + id + "':", maps[id])
-        }
-        return [];
+
+    ports: {
+        createMap: function (arg) {
+            var maps = ElmMapboxGL.maps;
+            var id = arg[0]
+            var options = Object.assign({}, {container: id}, arg[1]);
+            debugger;
+            if (!maps[id]) {
+                maps[id] = new mapboxgl.Map(options);
+                console.log("new Mapbox GL at '" + id + "':", maps[id])
+            }
+            return [];
+        },
     },
-    attach: function(app) {
-        app.ports.mapboxgl_createMap.subscribe(function(id) {
-            ElmMapboxGL.createMap(id);
-        });
+
+    connect: function(app) {
+        Object.keys(ElmMapboxGL.ports)
+            .map( function (name) {
+                var portname = "mapboxgl_" + name;
+                app.ports[portname]
+                    .subscribe(ElmMapboxGL.ports[name]);
+                });
     }
 }
