@@ -1,7 +1,7 @@
 // This is the JS side of the Elm ports for the MapboxGL package
 // It isn't clear at the moment how to get this included into the Elm bundle
 
-mapboxgl.accessToken = 'pk.eyJ1IjoibW5tbHN0IiwiYSI6ImNqM2o2cWNrbDAwYXozM3F0ajNqMm9rN3MifQ.KHPi-iyarEjFPVWm0y9slA';
+mapboxgl.accessToken = '<Your token here>';
 
 var ElmMapboxGL = {
     maps: {},
