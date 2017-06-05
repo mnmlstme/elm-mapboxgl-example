@@ -1,8 +1,10 @@
 module Main exposing (..)
 
-import Html exposing (Html, section, h1, text)
+import Html exposing (Html, section, h1, text, p, button)
+import Html.Events exposing (onClick)
 import MapboxGL.MapView as MapView exposing (MapView)
-import MapboxGL.MapOptions as MapOptions
+import MapboxGL.Options as MapOptions
+import MapboxGL.Position exposing (Position)
 
 
 main : Program Never Model Msg
@@ -21,6 +23,7 @@ main =
 
 type alias Model =
     { map : MapView
+    , cities : List ( String, Position )
     }
 
 
@@ -30,10 +33,22 @@ init =
         mapview =
             MapView "my_map" MapOptions.default
 
-        msg =
+        cities =
+            [ ( "Tokyo", Position 35.68501691 139.7514074 )
+            , ( "Mumbai", Position 19.01699038 72.8569893 )
+            , ( "Mexico City", Position 19.44244244 -99.1309882 )
+            , ( "Shanghai", Position 31.21645245 121.4365047 )
+            , ( "Sao Paulo", Position -23.55867959 -46.62501998 )
+            , ( "New York", Position 40.74997906 -73.98001693 )
+            ]
+
+        model =
+            Model mapview cities
+
+        initmsg =
             MapMessage MapView.CreateMap mapview
     in
-        update msg (Model mapview)
+        update initmsg model
 
 
 
@@ -61,7 +76,22 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    section []
-        [ h1 [] [ text "My Map" ]
-        , MapView.view model.map
-        ]
+    let
+        pos =
+            Position 37.787778 -122.407884
+
+        jumpTo ( name, pos ) =
+            button
+                [ onClick <| MapMessage (MapView.FlyTo pos) model.map
+                ]
+                [ text name ]
+    in
+        section []
+            [ h1 [] [ text "My Map" ]
+            , p []
+                (List.map
+                    jumpTo
+                    model.cities
+                )
+            , MapView.view model.map
+            ]

@@ -8,8 +8,13 @@ module MapboxGL.MapView
 
 import Html exposing (Html, div)
 import Html.Attributes exposing (id, style)
-import MapboxGL.MapOptions exposing (MapOptions)
-import MapboxGL.Ports exposing (mapboxgl_createMap)
+import MapboxGL.Options exposing (MapOptions, cameraOptionsOf)
+import MapboxGL.Position exposing (Position, toLngLat)
+import MapboxGL.Ports
+    exposing
+        ( mapboxgl_createMap
+        , mapboxgl_flyToMap
+        )
 
 
 type alias MapView =
@@ -20,6 +25,7 @@ type alias MapView =
 
 type Msg
     = CreateMap
+    | FlyTo Position
 
 
 update : Msg -> MapView -> ( MapView, Cmd msg )
@@ -27,6 +33,18 @@ update msg model =
     case msg of
         CreateMap ->
             ( model, mapboxgl_createMap ( model.id, model.options ) )
+
+        FlyTo pos ->
+            let
+                options =
+                    model.options
+
+                newModel =
+                    { model | options = { options | center = toLngLat pos } }
+            in
+                ( newModel
+                , mapboxgl_flyToMap ( model.id, cameraOptionsOf newModel.options )
+                )
 
 
 view : MapView -> Html msg

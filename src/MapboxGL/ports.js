@@ -11,13 +11,16 @@ var ElmMapboxGL = {
             var maps = ElmMapboxGL.maps;
             var id = arg[0]
             var options = Object.assign({}, {container: id}, arg[1]);
-            debugger;
             if (!maps[id]) {
                 maps[id] = new mapboxgl.Map(options);
                 console.log("new Mapbox GL at '" + id + "':", maps[id])
             }
             return [];
         },
+
+        flyToMap: function (arg) {
+            ElmMapboxGL.maps[arg[0]].flyTo(arg[1])
+        }
     },
 
     connect: function(app) {
