@@ -1,7 +1,7 @@
 module Main exposing (..)
 
-import Html exposing (Html, section, h1, text, p, button)
-import Html.Events exposing (onClick)
+import Html exposing (Html, section, h1, text, p, button, input)
+import Html.Events exposing (onClick, onInput)
 import MapboxGL.MapView as MapView exposing (MapView)
 import MapboxGL.Options as MapOptions
 import MapboxGL.Position exposing (Position)
@@ -85,6 +85,18 @@ view model =
                 [ onClick <| MapMessage (MapView.FlyTo pos) model.map
                 ]
                 [ text name ]
+
+        changePitch str =
+            let
+                pitch =
+                    String.toInt str
+            in
+                case pitch of
+                    Ok n ->
+                        MapMessage (MapView.SetPitch n) model.map
+
+                    Err _ ->
+                        MapMessage (MapView.SetPitch 0) model.map
     in
         section []
             [ h1 [] [ text "My Map" ]
@@ -93,5 +105,6 @@ view model =
                     jumpTo
                     model.cities
                 )
+            , input [ onInput changePitch ] []
             , MapView.view model.map
             ]

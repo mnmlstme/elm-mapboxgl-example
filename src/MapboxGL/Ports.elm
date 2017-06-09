@@ -10,3 +10,6 @@ port mapboxgl_createMap : ( String, MapOptions ) -> Cmd msg
 
 
 port mapboxgl_flyToMap : ( String, CameraOptions ) -> Cmd msg
+
+
+port mapboxgl_setPitch : ( String, Int ) -> Cmd msg

@@ -14,6 +14,7 @@ import MapboxGL.Ports
     exposing
         ( mapboxgl_createMap
         , mapboxgl_flyToMap
+        , mapboxgl_setPitch
         )
 
 
@@ -26,6 +27,7 @@ type alias MapView =
 type Msg
     = CreateMap
     | FlyTo Position
+    | SetPitch Int
 
 
 update : Msg -> MapView -> ( MapView, Cmd msg )
@@ -45,6 +47,9 @@ update msg model =
                 ( newModel
                 , mapboxgl_flyToMap ( model.id, cameraOptionsOf newModel.options )
                 )
+
+        SetPitch pitch ->
+            ( model, mapboxgl_setPitch ( model.id, pitch ) )
 
 
 view : MapView -> Html msg

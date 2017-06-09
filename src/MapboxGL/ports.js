@@ -1,7 +1,7 @@
 // This is the JS side of the Elm ports for the MapboxGL package
 // It isn't clear at the moment how to get this included into the Elm bundle
 
-mapboxgl.accessToken = '<Your token here>';
+mapboxgl.accessToken = '<your mapbox key>';
 
 var ElmMapboxGL = {
     maps: {},
@@ -15,11 +15,14 @@ var ElmMapboxGL = {
                 maps[id] = new mapboxgl.Map(options);
                 console.log("new Mapbox GL at '" + id + "':", maps[id])
             }
-            return [];
         },
 
         flyToMap: function (arg) {
             ElmMapboxGL.maps[arg[0]].flyTo(arg[1])
+        },
+
+        setPitch: function (arg) {
+            ElmMapboxGL.maps[arg[0]].setPitch(arg[1])
         }
     },
 
